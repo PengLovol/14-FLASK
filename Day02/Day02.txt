@@ -1,0 +1,225 @@
+回顾
+1.搭建结构
+	from flask imort Flask
+	
+	app = Flask(__name__)
+
+	@app.route('/路径')
+	def fun():
+		return ""
+
+	if __name__ == "__main__":
+		app.run(debug=True,port=5555)
+2.路由
+	@app.route() 来表示路由
+
+	@app.route('/') : 访问路径 /
+	def ...
+	@app.route('/index') : 访问路径 /index
+	def ....
+	@app.route('/user/info') : 访问路径 /user/info
+	def ...
+	@app.route('/user/<name>') : 访问路径 /user/xxx
+	def user(name):
+		# name 是一个字符串
+		return ''
+	@app.route('/user/<int:age>') : 访问路径 /user/xxx
+	def user(age):
+		# age 是一个整数
+		return ''
+	类型转换器：
+		默认 ：字符串，不允许有 /
+		int :
+		float : 
+		path : 字符串 ，允许有 /
+
+	@app.route('/')
+	@app.route('/index')
+	@app.route('/<int:page>')
+	@app.route('/index/<int:page>')
+	def index(page=None):
+		return ''
+
+	路由的反向解析：
+		url_for(funName,arg1=value1,arg2=value2)
+			funName : 要反向生成地址的函数名
+			arg1 ~ n : 传递给url的参数名和值
+3.Tempates - 模板
+	1.模板设置
+		需要在 flask 程序文件夹中创建一个 templates 的子目录
+	2.渲染模板
+		render_template() : 将模板渲染成字符串再响应
+		语法：
+			render_template('xxx.html',arg1=value1,arg2=value2)
+				xxx.html : 要渲染的 文件
+				arg1 ~ n : 要传递给模板的变量占位符
+				返回值：字符串
+
+=========================================================
+1.模板 - Templates
+	1.模板中的语法
+		1.变量
+			变量时一种特殊的占位符，告诉模板引擎该位置的值是从渲染模板时的数据中来获取的
+
+			在视图中 ：
+				@app.route('/')
+				def index():
+					return render_template('xxx.html',name='sf.zh',age=18)
+				
+				name 和 age  就是要传递到 xxx.html 中的变量
+			
+			在模板中 ：
+				{{变量名}}
+
+			练习：在 01_temp.html基础上，完成下列效果显示
+
+			书名 ：《钢铁是咋练成的》
+			作者 ： 奥斯特洛夫斯基
+			价格 ： 32.5
+			出版社 ：北京大学出版社
+		2.过滤器
+			1.什么是过滤器
+				过滤器是允许在变量输出显示之前改变变量的值
+			2.过滤器的语法
+				{{变量|过滤器}}
+
+				Jinja2 变量过滤器
+				过滤器名            说明
+				capitalize          首字符变大写，其他字符变小写
+				lower               把值转换成小写
+				upper               把值转换成大写
+				title               把值中的每个单词的首字符变大写
+				trim                把值两端的空格去掉
+		3.控制结构
+			1.if结构
+				{% if 条件 %}
+					
+				{% endif %}
+
+
+
+				{% if 条件 %}
+					满足条件要执行的代码
+				{% else %}
+					不满足条件要执行的代码
+				{% endif %}
+			2.for结构
+				{% for 变量 in 元组|列表|字典 %}
+				{% endfor %}
+			3.宏
+				使用 {% macro %} 标签声明宏
+				
+				<!-- 声明 -->
+				{% mscro show(str) %}
+					<h1>{{str}}</h1>
+				{% endmacro %}
+				
+				<!-- 调用 -->
+				{{show(uname)}}
+
+				为了方便重复使用，允许将宏放在单独的模板文件中声明定义
+				1.创建 macro.html
+					{% mscro show(str) %}
+						<h1>{{str}}</h1>
+					{% endmacro %}
+
+					{% mscro show_li(str) %}
+						<li>{{str}}</li>
+					{% endmacro %}
+				2.在使用的网页中 ，导入 macro.html
+					{% import 'macro.html' as macros %}
+
+
+					{{ macros.show_li(uname) }}
+			4.模板的包含
+				在多处重复使用的模板代码可以放在单独的文件中，可以被其他的模板所包含（引用）
+				{% include 'xxx.html' %}
+	2.静态文件
+		1.什么是静态文件
+			在Flask中不能与服务器动态交互的文件都是静态文件
+			如：css,js,图片，音视频，.... ....
+		2.静态文件的处理
+			所有静态文件都保存在项目文件夹中的 static 文件夹中
+			在访问静态文件的时候需要通过 /static/资源路径 进行访问
+
+			<img src="/static/资源路径">
+
+			反向解析：
+				url_for('static',filename='<file_path>')
+				<img src="{{url_for('static',filename='images/b04.jpg')}}"> 
+	3.模板的继承
+		1.什么是模板的继承
+			模板的继承类似于类的继承，如果在一个模板中出现的大量内容是另外一个模板的话，那么就可以使用继承的方式来简化开发
+		2.语法
+			1.父模板中
+				需要定义出哪些内容在子模板中是可以被重写的
+				{% block 块名 %}
+				{% endblock %}
+
+				block : 定义允许在子模板中被修改的内容
+					1.在父模板中正常显示，没有任何影响
+					2.在子模板中可以被重写
+			2.子模板中
+				1.使用 {% extends '父模板名称' %} 来完成继承
+				2.使用 {% block 块名 %} 来重写父模板中的同名内容
+					{% block 块名 %}
+						覆盖掉父模板中的内容
+					{% endblock %}
+
+					允许通过 {{super()}} 来调用父模板中的内容
+2.自定义错误页面	
+	1. 404 的错误处理
+		@app.errorhandler(404)
+		def page_not_found(e):
+			return render_template('404.html'),404
+	2. 500的错误处理
+		@app.errorhandler(500)
+		def internal_server_error(e):
+			return render_template('500.html'),500
+	... ...
+	404.html,500.html 需要自定义
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+title = '我的第一个模板'
+bookName = '钢铁是咋练成的'
+author = '奥斯特洛夫斯基'
+price = 32.5
+publisher = '北京大学出版社'
+
+
+locals() : 
+{
+	'title': '我的第一个模板', 
+	'publisher': '北京大学出版社',
+	'price': 32.5, 
+	'bookName': '钢铁是咋练成的', 
+	'author': '奥斯特洛夫斯基'
+}
+
+
+http://127.0.0.1:5000/images/b04.jpg
+
+
+
+
+
+
+
+
+
+
+
+
