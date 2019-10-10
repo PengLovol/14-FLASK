@@ -49,8 +49,7 @@
 		使用 request.files 接收上传的文件
 		f = request.files['文件选择框名称']
 		f.save('static/'+f.filename)
-
-
+作业：将上传的文件名称更改为 当前的时间(年月日时分秒微秒).扩展名 再保存到服务器上 ：run1.py
 
 
 os.path.dirname(__file__)

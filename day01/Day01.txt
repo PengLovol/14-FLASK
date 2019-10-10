@@ -68,6 +68,7 @@ Django 重量级 WEB 框架
 		客户端将请求发送给web服务器，web服务器再将请求发送给flask程序实例
 		程序实例需要知道每个url请求要运行哪些代码，所以需要建立一个 url 到 python 函数的映射，处理url和函数之间的关系的程序就是 路由
 		在Flask中，路由是通过 @app.route 装饰器来表示的
+		python装饰器复习：https://www.runoob.com/w3cnote/python-func-decorators.html
 	2.路由的体现
 		1.路由的基本表示
 			@app.route('/')
