@@ -116,7 +116,7 @@ os.path.join(目录1,目录2,目录n)
 		2.定义模型
 			模型：数据库中的表在编程语言中的体现，其本质就是一个Python 的类（可称为：模型类 或 实体类）。类中的属性要与数据库表中的列相对应
 
-			语法：
+			语法：(全大写名字是可替换的变量)
 				class MODELNAME(db.Model):
 					__tablename__ = "TABLENAME"
 					COLUMN_NAME = db.Column(db.TYPE,OPTIONS)
@@ -150,7 +150,7 @@ os.path.join(目录1,目录2,目录n)
 				index            设置为True则表示该列要创建索引
 				nullable         设置为True则表示该列允许为空
 				default          为该列定义默认值
-		练习：
+		练习：run2.py
 			1.创建 Student 模型类
 				表名 ： student
 				字段：
