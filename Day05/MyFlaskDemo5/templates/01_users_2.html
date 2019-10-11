@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <table border="1">
+        <thead>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>邮件</th>
+            <th>操作</th>
+        </thead>
+        <tbody>
+            {% for u in params.users %}
+                <tr>
+                    <td>
+                        <a href="/query_by_id_2?id={{ u.id }}">
+                            {{ u.username }}
+                        </a>
+
+                    </td>
+                    <td>{{ u.age }}</td>
+                    <td>{{ u.email }}</td>
+                    <td>
+                        <a href="#">删除</a>
+                        <a href="#">修改</a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

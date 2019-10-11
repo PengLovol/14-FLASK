@@ -7,7 +7,7 @@ from sqlalchemy import or_
 pymysql.install_as_MySQLdb()
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']="mysql://root:123456@localhost:3306/flask"
+app.config['SQLALCHEMY_DATABASE_URI']="mysql://root:120913@localhost:3306/flask"
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN']=True
 db = SQLAlchemy(app)
 
@@ -147,7 +147,7 @@ def query_by_id():
     id = request.args.get('id')
     # 根据id获取 user 的信息
     user = db.session.query(Users).filter_by(id=id).first()
-    # 将user对象发送的02-user.html模板上进行s显示
+    # 将user对象发送的02-user.html模板上进行显示
     return render_template('02-user.html',params=locals())
 
 

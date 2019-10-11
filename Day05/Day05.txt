@@ -70,6 +70,8 @@
 					db.session.query(Users).order_by('id desc').all()
 			5.group_by()
 				db.session.query(Users).group_by('age').all()
+
+			作业：@app.route('/query_all')　两种方法（01_users.html 01_users_02.html）
 	2.基于 Models 进行查询
 		Models.query.查询过滤器(条件参数).查询执行函数()
 2.FLASK-SQLALCHEMY - 删除 和 修改
