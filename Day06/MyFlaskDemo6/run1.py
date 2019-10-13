@@ -54,7 +54,7 @@ class Teacher(db.Model):
     def __repr__(self):
         return "<Teacher %r>" % self.tname
 
-db.drop_all()
+# db.drop_all()
 db.create_all()
 
 @app.route('/insert')
@@ -203,6 +203,30 @@ def update_views():
         # 保存
         db.session.add(user)
         return redirect('/query_all')
+
+@app.route('/add_course')
+def add_course():
+    course1 = Course('PYTHON 基础')
+    course2 = Course('PYTHON 高级')
+    course3 = Course('PYTHON WEB 基础')
+    course4 = Course('PYTHON WEB 开发')
+
+    db.session.add(course1)
+    db.session.add(course2)
+    db.session.add(course3)
+    db.session.add(course4)
+    return "Add Course OK"
+
+@app.route('/add_teacher')
+def add_teacher():
+    teacher=Teacher('魏老师',35)
+    # teacher.course_id=1
+    # 根据course_id查询出一个Course实体,再将Course实体赋值给teacher
+    course=Course.query.filter_by(id=1).first()
+    teacher.course = course
+    db.session.add(teacher)
+    return "Add teacher Ok"
+
 
 if __name__ == "__main__":
     app.run(debug=True)

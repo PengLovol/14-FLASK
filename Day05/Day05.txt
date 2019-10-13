@@ -65,15 +65,35 @@
 			3.limit()
 				1.在整个查询结果中获取前5条数据	
 					db.session.query(Users).limit(5).all()
+					db.session.query(Users).limit(3).offset(1).all()  #offset表示limmit的偏移量，等同于mysql中的，limit(1,3)
 			4.order_by()
 				1.对Users表中所有的数据按id倒序排序
 					db.session.query(Users).order_by('id desc').all()
+					注意：SQLAlchemy 的写法有三种：https://wxnacy.com/2019/03/30/sqlalchemy-error-order-by/
+                                                                                            #!/usr/bin/env python
+                                                                                            # -*- coding:utf-8 -*-
+                                                                                            # Author: wxnacy(wxnacy@gmail.com)
+
+                                                                                            # 第一种最简单
+                                                                                            db.session.query(User).order_by('id desc').all()
+
+                                                                                            # 第二种比较符合 SQLAlchemy 语法（本版本适用）
+                                                                                            db.session.query(User).order_by(User.id.desc()).all()
+
+                                                                                            # 第三种最麻烦
+                                                                                            from sqlalchemy import desc
+                                                                                            db.session.query(User).order_by(desc(User.id)).all()
+
+
+
 			5.group_by()
 				db.session.query(Users).group_by('age').all()
+
 
 			作业：@app.route('/query_all')　两种方法（01_users.html 01_users_02.html）
 	2.基于 Models 进行查询
 		Models.query.查询过滤器(条件参数).查询执行函数()
+		users = Users.query.filter(Users.id>3).all()
 2.FLASK-SQLALCHEMY - 删除 和 修改
 	1.删除
 		1.查询出要删除的实体
@@ -96,14 +116,36 @@
 				外键列名=db.Column(db.Integer,db.ForeignKey('主表.主键'))
 			2.在"一"实体中增加反向引用关系
 				属性名=db.relationship('多的实体类名',backref='属性名',lazy='dynamic')
-		
-
-
-
-
-Teacher & Course
+例子：Teacher & Course：run1.py
 每名Teacher只能教一门Course
 每门Course可以由多名Teacher来教
+
+补充：3.关系映射 #Day06:@app.route('/add_course')
+	Teacher ：id,tname,tage (多)
+	Course : id,cname (一)
+
+	一名老师只能教一门课
+	一门课可以由多个老师来教
+
+	数据库中的实现：
+		在"多"表中增加外键引用自"一"表中主键
+
+	class Course(db.Model):
+		__tablename__ = 'course'
+		id = db.Column()
+		...
+		# Teacher类中会存在一个隐式属性 ：course #自己取得名字
+		teachers = db.relationship('Teacher',backref='course',lazy='dynamic')
+
+	class Teacher(db.Model):
+		__tablename__ = 'teacher'
+		id = db.Column()
+		tname = db.Column()
+		..
+		course_id = db.Column(db.Integer,db.ForeignKey('course.id'))
+
+
+
 
 
 SELECT users.id AS users_id, users.username AS users_username, users.age AS users_age, users.email AS users_email 

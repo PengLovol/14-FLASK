@@ -73,6 +73,7 @@ class Course(db.Model):
 
 
 # 将创建好的实体类映射回数据库
+#db.create_all()--->对于已经存在的实体对象，create_all()不起任何作用
 db.create_all()
 
 #
@@ -83,7 +84,7 @@ def insert_views():
     # 将对象通过db.session.add()插入到数据库
     db.session.add(users)
     # 提交插入操作
-    db.session.commit()
+    # db.session.commit()
     return "Insert Success"
 @app.route('/register',methods=['GET','POST'])
 def register():

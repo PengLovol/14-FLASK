@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <form action="/update" method="post">
+        <input type="hidden" name="id" value="{{ params.user.id }}">
+        <p>
+            姓名：<input type="text" name="username" value="{{ params.user.username }}">
+        </p>
+        <p>
+            年龄：<input type="text" name="age" value="{{ params.user.age }}">
+        </p>
+        <p>
+            邮箱：<input type="text" name="email" value="{{ params.user.email }}">
+        </p>
+        <p>
+            <input type="submit" value="提交">
+        </p>
+    </form>
+</body>
+</html>
