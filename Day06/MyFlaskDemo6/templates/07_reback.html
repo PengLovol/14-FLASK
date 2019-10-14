@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <div>
+        <h2>{{ params.errMsg  }}</h2>
+        <h1>
+            <a href="/register_course_student" style="text-decoration: none;">返回</a>
+        </h1>
+    </div>
+    <div>
+        <h1>
+            学生姓名：{{ params.student.sname }} ; 学生年龄：{{ params.student.sage }}
+        </h1>
+        <p>
+            学生课程表
+        </p>
+        {% for cour in params.student.courses %}
+            <p>{{ cour.cname }}</p>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

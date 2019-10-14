@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>07_register_course_student</title>
+</head>
+<body>
+    <form id="frmReg" action="/register_course_student" method="post">
+        <p>
+            学生姓名:<select id="selStu" name="student" style="text-align: center;text-align-last: center;">
+                        <option value="-1">=====请选择学生=======</option>
+                        {% for student in params.students %}
+                            <option value="{{ student.id}}" style="text-align: center">{{ student.sname }}</option>
+                        {% endfor %}
+                    </select>
+        </p>
+        <p>
+            所选课程：<select id="selCour" name="course" style="text-align: center;text-align-last: center;">
+                    <option value="-1">====请选择课程====</option>
+                    {% for course in params.courses %}
+                        <option value="{{ course.id }}" style="text-align: center">{{ course.cname }}</option>
+                    {% endfor %}
+                </select>
+        </p>
+        <p>
+            <input type="submit" value="提交选课">
+        </p>
+    </form>
+    <script>
+        window.onload=function () {
+            var frm=document.getElementById('frmReg');
+            frm.onsubmit=function () {
+                var selStu=document.getElementById('selStu');
+                var selCour=document.getElementById('selCour');
+                if(selStu.value==-1||selCour.value==-1){
+                    alert('请选择');
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

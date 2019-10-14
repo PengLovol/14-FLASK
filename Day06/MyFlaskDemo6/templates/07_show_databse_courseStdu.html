@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <div>
+        {% for student in params.students %}
+            <h1>
+            学生姓名：{{ student.sname }} ; 学生年龄：{{ student.sage }}
+            </h1>
+            <p>
+                学生课程表
+            </p>
+            {% for cour in student.courses %}
+                <p>{{ cour.cname }}</p>
+            {% endfor %}
+            <p>**********************************************</p>
+        {% endfor %}
+
+
+    </div>
+</body>
+</html>

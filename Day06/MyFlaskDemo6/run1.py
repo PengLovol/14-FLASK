@@ -96,6 +96,7 @@ class Student(db.Model):
     __tablename__ = "student"
     id = db.Column(db.Integer,primary_key=True)
     sname = db.Column(db.String(30))
+    sage=db.Column(db.Integer)
     # 增加关联属性以及反向引用
     courses=db.relationship('Course',
                             secondary='student_course',
@@ -107,8 +108,9 @@ class Student(db.Model):
                             )
 
 
-    def __init__(self,sname):
+    def __init__(self,sname,sage):
         self.sname = sname
+        self.sage=sage
 
     def __repr__(self):
         return "<Student %r>" % self.sname
@@ -417,6 +419,7 @@ def register_wife():
         wife=Wife.query.filter_by(teacher_id=teacher_id).first()
         if wife:
             errMsg="EXIST"
+            print(errMsg)
             # 判断 wife 表中的 teacher_id 列是否已经有了value的值
             teachers = Teacher.query.all()
             return render_template('06_register_wife.html',params=locals())
@@ -470,8 +473,47 @@ def query_student_course():
 
     return "Query OK"
 
+#我的小练习：可视化关联表
+@app.route('/register_course_student',methods=['GET','POST'])
+def register_course_student():
+    if request.method == 'GET':
+        courses = Course.query.all()
+        students = Student.query.all()
+        return render_template('07_register_course_student.html', params=locals())
+    else:
+        #由表单提交得到相关信息
+        student_id=request.form['student']
+        course_id=request.form['course']
+        student=Student.query.filter_by(id=student_id).first()
+        print(student.sname)
+        print(student.sage)
+        courseNew=Course.query.filter_by(id=course_id).first()
 
 
+        #遍历该学生所选过的课程，避免重复
+        coursesAll=student.courses.all()
+        # print(course.cname)
+        # for cour in courses:
+        #     print(cour.cname)
+        # return 'OK'
+
+        for cour in coursesAll:
+            if courseNew.cname==cour.cname:
+                errMsg = "重复选择课程"
+                print(errMsg)
+                return render_template('/07_reback.html',params=locals())
+
+        student.courses.append(courseNew)
+        coursesUpdate=student.courses.all()
+        return render_template('/07_show_course_student.html',params=locals())
+
+
+
+#显示所有学生的课程表
+@app.route('/show_database_courseStu')
+def show_database_courseStu():
+    students=Student.query.all()
+    return render_template('/07_show_databse_courseStdu.html',params=locals())
 
 
 
