@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <div>
+        <table border="1">
+        <thead>
+            <tr>
+                <th>姓名</th>
+                <th>年龄</th>
+                <th>所教课程</th>
+                <th>功能</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tea in params.teachers %}
+            <tr>
+                <td>{{ tea.tname }}</td>
+                <td>{{ tea.tage }}</td>
+                <td>{{ tea.course.cname }}</td>
+                <td>
+                    <a href="/teacher_delete?id={{ tea.id }}">删除</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+         <p>
+             <a href="/register_teacher">注册</a>
+        </p>
+
+</body>
+</html>

@@ -47,6 +47,8 @@
 		..
 		course_id = db.Column(db.Integer,db.ForeignKey('course.id'))
 
+		练习1.png ：@app.route('/register_teacher',methods=['POST','GET'])
+
 ===============================================
 1.关系映射
 	1.一对多
@@ -65,8 +67,10 @@
 														 subquery : 立即加载，但使用子查询
 														 noload : 永不加载
 														 dynamic : 不加载记录，但提供加载记录的查询
-				uselist							 如果设置为False，则不使用列表，使用标量
+				uselist							 如果设置为False，则不使用列表，使用标量，用于一对一
 				secondary            指定多对多关系中关联表的名字
+
+
 	2.一对一
 		1·什么是一对一
 			A表中的一条记录只能与B表中的一条记录关联

@@ -33,6 +33,7 @@ class Course(db.Model):
     cname = db.Column(db.String(30))
     #反向引用:返回与当前课程相关的teacher列表
     #backref:定义反向关系,本质上会向Teacher实体中增加一个course属性.该属性可替代course_id来访问Course模型.此时获得到的是模型对象,而不是外键值
+    # 一箭双雕：在Teacher实体中增加一个course属性,同时在Course实体中增加了teachers属性，以此实现两个表的互相查询
     teachers=db.relationship('Teacher',backref='course')
 
     def __init__(self,cname):

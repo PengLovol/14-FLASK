@@ -39,22 +39,21 @@ class Course(db.Model):
     def __init__(self,cname):
         self.cname=cname
 
-
-
 class Teacher(db.Model):
-    __tablename__='teacher'
-    id=db.Column(db.Integer,primary_key=True)
-    tname=db.Column(db.String(30))
-    tage=db.Column(db.Integer)
-    # 增加一列:course_id,外键列，要引用主键表（course)的主键列(id)
-    course_id=db.Column(db.Integer,db.ForeignKey('course.id'))
+    __tablename__ = 'teacher'
+    id = db.Column(db.Integer, primary_key=True)
+    tname = db.Column(db.String(30))
+    tage = db.Column(db.Integer)
 
-    def __int__(self,tname,tage):
-        self.tname=tname
-        self.tage=tage
+    # 增加一列 : course_id,外键列,要引用自主键表(course)的主键列(id)
+    course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
+
+    def __init__(self, tname, tage):
+        self.tname = tname
+        self.tage = tage
+
     def __repr__(self):
-        return "<Teacher %r>"% self.tname
-
+        return "<Teacher %r>" % self.tname
 # 将创建好的实体类映射回数据库
 db.drop_all()
 db.create_all()

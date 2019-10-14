@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    {#      添加插入功能      #}
+
+    <table border="1">
+        <thead>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>邮件</th>
+            <th>操作</th>
+            <th>
+                  <a href="/insert">插入</a>
+            </th>
+        </thead>
+        <tbody>
+            <script>
+                function show() {
+                    alert("点我干啥！！！")
+                }
+                // 1）确认是否要删除用户
+                // 2) 参数 id:要删除的用户的id
+                function deleteUser(id) {
+                    if(confirm('确定删除吗')){
+                        //向服务器发送(get)请求
+                        location.href='/delete?id='+id;
+                    }
+                }
+            </script>
+
+
+            {% for u in params.users %}
+                <tr>
+                    <td>
+                        <a href="/query_by_id_2?id={{ u.id }}">
+                            {{ u.username }}
+                        </a>
+
+                    </td>
+                    <td>{{ u.age }}</td>
+                    <td>{{ u.email }}</td>
+                    <td>
+                        <a href="javascript:deleteUser({{ u.id }})">删除</a>
+                        <a href="/update?id={{ u.id }}">修改</a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
